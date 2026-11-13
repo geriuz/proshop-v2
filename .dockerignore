@@ -1,0 +1,11 @@
+node_modules
+frontend/node_modules
+frontend/build
+uploads/*
+.env
+.env.*
+.git
+.github
+*.log
+azure
+loadtest
