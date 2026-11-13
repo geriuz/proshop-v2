@@ -7,10 +7,8 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/proshop
   RESOURCE_GROUP: rg-proshop
   APP_NAME: proshop-app
 
@@ -20,15 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Normalizar nombre de imagen (minúsculas)
-        run: echo "IMAGE=$(echo $IMAGE | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Definir nombre de imagen
+        run: echo "IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/proshop" >> $GITHUB_ENV
 
-      - name: Login en GitHub Container Registry
+      - name: Login en Docker Hub
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Construir y publicar imagen
         uses: docker/build-push-action@v6
