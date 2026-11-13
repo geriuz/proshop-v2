@@ -8,7 +8,7 @@ set -euo pipefail
 LOCATION="${LOCATION:-eastus}"
 RG="rg-proshop"
 SUFFIX="${SUFFIX:-$RANDOM}"
-LOG="log-proshop"
+LOG="log-proshop-${SUFFIX}"
 ENV_NAME="cae-proshop"
 APP="proshop-app"
 STORAGE="stproshop${SUFFIX}"     # solo minúsculas y números, único global
@@ -24,6 +24,8 @@ az group create -n "$RG" -l "$LOCATION" -o none
 
 echo "== 2. Log Analytics (monitoreo centralizado)"
 az monitor log-analytics workspace create -g "$RG" -n "$LOG" -l "$LOCATION" -o none
+sleep 20
+sleep 20
 LOG_ID=$(az monitor log-analytics workspace show -g "$RG" -n "$LOG" --query customerId -o tsv)
 LOG_KEY=$(az monitor log-analytics workspace get-shared-keys -g "$RG" -n "$LOG" --query primarySharedKey -o tsv)
 
